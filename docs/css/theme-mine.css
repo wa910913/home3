@@ -1,0 +1,95 @@
+
+:root{
+    --red: 255;
+    --green: 255;
+    --blue: 255;
+  
+    --mid-color: calc( ( (( (var(--red) * 299) + (var(--green) * 587) + (var(--blue) * 114) ) / 1000 ) - 128 ) * -1000);
+    --color: rgb(var(--mid-color),var(--mid-color),var(--mid-color));
+    --back-color : rgb(
+                var(--red),
+                var(--green),
+                var(--blue)
+     );
+     
+    --theme-color: rgb(28,144,243); /* #1C90F3 */
+    --theme-border-color: rgb(51, 161, 255); /* #33a1ff */
+    --theme-transparent-color: rgb(28 144 243 / 50%);
+    --MAIN-BG-color: var(--back-color);
+    --MAIN-TEXT-color: var(--color); /* 本文顏色 */
+    --MAIN-TITLES-TEXT-color: var(--color); /* 標題顏色 */
+    --MAIN-LINK-color: var(--theme-color); /* Color of links */
+    --MAIN-LINK-HOVER-color:var(--theme-color); /* rgb(22, 122, 208) #167ad0 Color of hovered links */
+    --MAIN-ANCHOR-color: var(--theme-color); /* color of anchors on titles */
+
+    --SIDEBAR-ACTIVE-BG-color: #516d7e; /* Background color of the active section and its childs */
+    --SIDEBAR-BG-color: #20272b; /* #252c31Background color of other sections */
+    --SIDEBAR-LINK-color: var(--back-color); /*#ccc* Color of links in menu */
+    --SIDEBAR-LINK-HOVER-color: coral;  /* Color of links in menu, when hovered */
+    --SIDEBAR-ACTIVE-CATEGORY-color: #777; /* Color of active category text */
+    --SIDEBAR-ACTIVE-CATEGORY-BG-color: #8ec6f7;; /* Color of background for the active category (only) */
+
+    --SIDEBAR-HR-color: var(--theme-border-color) ; /* Color of <hr> separator in menu */
+}
+
+body {
+    color: var(--MAIN-TEXT-color) !important;
+    background-color: var(--MAIN-BG-color) !important;
+}
+
+
+h2, h3, h4, h5 {
+    color: var(--MAIN-TITLES-TEXT-color) !important;
+}
+
+a:not([class]) {
+    color: var(--MAIN-TEXT-color) !important;
+}
+
+.anchor {
+    color: var(--MAIN-ANCHOR-color);
+}
+
+a:hover {
+    color: var(--MAIN-LINK-HOVER-color);
+}
+ 
+#sidebar {
+
+	background-color: var(--SIDEBAR-BG-color) !important; /* SIDEBAR-BG-color */
+}
+
+/* 目前段落的背景顏色
+#sidebar ul.topics > li.parent, #sidebar ul.topics > li.active {
+    background: var(--SIDEBAR-ACTIVE-BG-color);
+}
+*/
+
+
+#topics-toggle{
+    color: var(--SIDEBAR-LINK-HOVER-color);
+  }
+
+
+#sidebar  {
+    color: var(--SIDEBAR-LINK-color) !important;
+}
+
+#sidebar a:hover {
+    background-color: var(--SIDEBAR-LINK-HOVER-color) !important;
+}
+#sidebar ul li > a {
+    color: var(--SIDEBAR-LINK-color) !important;
+}
+#sidebar ul li.active > a {
+    background: var(--SIDEBAR-ACTIVE-CATEGORY-BG-color);
+    /*color: var(--SIDEBAR-ACTIVE-CATEGORY-color) !important; */
+}
+
+#sidebar hr {
+    border-color: var(--SIDEBAR-HR-color);
+}
+
+#body .tags a.tag-link {
+    background-color: var(--theme-color);
+}

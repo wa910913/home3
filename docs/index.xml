@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>頁首 on Learn Javascript</title>
+    <link>https://airbone5.github.io/test1/</link>
+    <description>Recent content in 頁首 on Learn Javascript</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://airbone5.github.io/test1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>loop animation</title>
+      <link>https://airbone5.github.io/test1/js/loop_anim.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://airbone5.github.io/test1/js/loop_anim.html</guid>
+      <description>#main{width: 100vh;height:100vh;}#box{position:fixed;border: solid green 2px;background-color: green;width:10px;height:20px;}let pos=10;for(let i=0;i</description>
+    </item>
+    
+    <item>
+      <title>mdprimer</title>
+      <link>https://airbone5.github.io/test1/js/mdprimer.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://airbone5.github.io/test1/js/mdprimer.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>uuuuuuuuu</title>
+      <link>https://airbone5.github.io/test1/js/firstjs.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://airbone5.github.io/test1/js/firstjs.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>模板</title>
+      <link>https://airbone5.github.io/test1/js/%E6%A8%A1%E6%9D%BF.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://airbone5.github.io/test1/js/%E6%A8%A1%E6%9D%BF.html</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
