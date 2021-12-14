@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Learn Javascript</title>
-    <link>https://wa910913.github.io/home3/tags.html</link>
+    <link>https://wa910913.github.io/tags.html</link>
     <description>Recent content in Tags on Learn Javascript</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://wa910913.github.io/home3/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://wa910913.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
