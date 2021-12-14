@@ -1,5 +1,5 @@
 theme = "variant"  
-baseURL = "https://wa910913.github.io/test1"
+baseURL = "https://wa910913.github.io/home3"
 #baseURL = "https://airbone4.github.io/class_web" #https://xxx.github.io/xxx
 pygmentsUseClasses = true
 languageCode = "en-us"
