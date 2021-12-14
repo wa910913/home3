@@ -1,0 +1,7 @@
+{{- range .Params.tags -}}
+{{- with $.Site.GetPage (printf "/tags/%s" .) -}}
+<a class="btn btn-outline-danger me-1 p-0" style="font-size:12px" href="{{ .RelPermalink }}">
+    <i class="fas fa-tag"></i>{{ .Name }}
+</a>
+{{- end -}}
+{{- end -}}

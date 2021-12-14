@@ -1,0 +1,37 @@
+---
+title: loop animation
+---
+
+<html>
+  <head>
+
+  </head>
+  <body>
+    <style>
+      #main{
+        width: 100vh;
+        height:100vh;
+      }
+      #box{
+        position:fixed;
+        border: solid green 2px;
+        background-color: green;
+        width:10px;
+        height:20px;
+      }
+
+    </style>
+    <div id="main">
+      <div id="box"></div>
+    </div>
+    <script>
+      let pos=10;
+       
+      for(let i=0;i<100;i++){
+        pos=pos+5;
+        box.style.right= pos.toString()+"px"
+           
+      }
+    </script>
+  </body>
+</html>

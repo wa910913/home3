@@ -1,0 +1,13 @@
+{{- $incode := default true (.Get "incode") -}}
+{{- $id := delimit (shuffle (seq 1 9)) "" | printf "n%s" -}}
+{{- "<!--html_preserve-->" | safeHTML -}}<div class="message {{- with (.Get "class") }} {{.}} {{end -}}">
+<button class='expand btn-primary p-1 collapsed' data-bs-toggle="collapse" data-bs-target="#{{$id}}"></button>
+{{- with (.Get "title")}}{{.|markdownify}}{{end -}}
+{{- if $incode -}}
+<div  id="{{$id}}" class="collapse" style="overflow-x:visbile">{{- "<!--/html_preserve-->" | safeHTML -}}
+{{- trim .Inner "\r\n"  -}}
+{{- else -}}
+<div  id="{{$id}}" class="collapse" style="overflow-x:visible">{{- "<!--/html_preserve-->" | safeHTML -}}
+{{- .Inner  |markdownify -}}
+{{- end -}}
+{{- "<!--html_preserve-->" | safeHTML -}}</div></div>{{- "<!--/html_preserve-->" | safeHTML -}}

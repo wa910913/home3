@@ -1,0 +1,51 @@
+kind: pipeline
+type: docker
+name: default
+trigger:
+  branch:
+    - master
+ 
+steps:
+- name: submodules
+  image: alpine/git
+  commands:
+  - git submodule init
+  - git submodule update --recursive --remote
+- name: Version check
+  image: linchao/hugo-builder
+  pull: never
+  commands:
+  - echo "Checking Hugo version. e"
+  - hugo version
+
+- name: Build 
+  image: linchao/hugo-builder
+  volumes:
+  - name: srcsite
+    path: /drone/src/build
+  pull: never
+  commands:
+  - hugo --destination /drone/src/build
+  #- minify -r -o /drone/src/build /drone/src/build    
+
+- name: deploy
+  image: cschlosser/drone-ftps
+  volumes:
+  - name: srcsite
+    path: /_site
+  environment:
+    FTP_USERNAME:
+      from_secret: linchao
+    FTP_PASSWORD:
+      from_secret: a2236527
+    PLUGIN_HOSTNAME: www2.nkust.edu.tw:21
+  hostname: www2.nkust.edu.tw:21
+  secrets: [linchao, a2236527]
+  dest_dir: /~linchao/www/test
+  src_dir: /_site
+  clean_dir: true
+
+
+volumes:
+- name: srcsite
+  temp: {}

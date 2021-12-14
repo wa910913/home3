@@ -1,0 +1,48 @@
+{{ define "main" }}
+<div id="content-wrapper">
+  {{ partial "menu.html" .}}
+
+<div class="container" id="body-inner">
+  <p class="text-center h2">
+    {{ .Type | humanize }}
+  </p>
+  {{ .Content }}  
+
+  <table class="compact" id="section-pages">
+    <thead><td style="width:12rem" class="text-end">最後修改日期</td><td>標題</td></thead>
+    <tbody>
+  {{ range .RegularPages.ByTitle }}
+    {{- if partial "func/isshown.html" .  -}}
+    <tr>
+      <td class="text-end">
+        <time class="post-date" datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">{{ .Lastmod.Format "2006/01/02" }}</time>
+      </td>
+    <td>
+        <a class="text-body" href="{{ .RelPermalink }}">{{ if .Draft }}DRAFT: {{end}}{{ .Title }}</a>
+     </td>
+  </tr>
+  {{- end -}}
+  {{ end }}
+</tbody>
+</table>
+
+</div>
+</div>
+<script>
+$(document).ready( function () {
+  $('#section-pages').DataTable({
+    paging: false,
+    autoWidth: false,
+    searching: false
+});
+} );
+</script>
+<style>
+
+.dataTables_wrapper{
+  margin: 0 auto;
+  width: 70%;
+}  
+
+</style>
+{{ end }}

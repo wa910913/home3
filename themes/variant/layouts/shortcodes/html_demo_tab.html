@@ -1,0 +1,117 @@
+
+{{/*
+ 
+*/}}
+
+{{ $hideCode := default false (.Get "hideCode" )}}
+{{ $hideResult := default false (.Get "hideResult" )}}
+{{ $hideEdit := default false (.Get "hideEdit" )}}
+
+
+{{/* 指定的路徑不存在時,找預設路徑 */}}
+{{ $htmlPath := .Get "htmlPath" }}
+{{ $tfn1 := path.Join .Page.File.Dir $htmlPath }}
+{{ $tfn2 := path.Join .Page.File.Dir (printf "%s.files/%s" .Page.File.BaseFileName $htmlPath) }}
+{{ $diskhtml := cond (fileExists $tfn1) $tfn1 ( cond (fileExists $tfn2) $tfn2 "") }}
+{{ $htmlfn := cond (fileExists $tfn1) $htmlPath  (printf "%s.files/%s" .Page.File.BaseFileName $htmlPath)  }}
+
+
+{{ $.Scratch.Set "cssfn" "" }}
+{{ $.Scratch.Set "jsfn" "" }}
+
+{{ if .Get "cssPath"}}
+{{ $cssPath := .Get "cssPath" }}
+{{ $tfn1 := path.Join .Page.File.Dir $cssPath }}
+{{ $tfn2 := path.Join .Page.File.Dir (printf "%s.files/%s" .Page.File.BaseFileName $cssPath ) }}
+{{ if (fileExists $tfn1) }}
+  {{ $.Scratch.Set "diskcss" $tfn1 }}
+  {{ $.Scratch.Set "cssfn" $cssPath }}
+{{else }}
+  {{if (fileExists $tfn2) }}
+    {{ $.Scratch.Set "diskcss" $tfn2 }}
+    {{ $.Scratch.Set "cssfn" (printf "%s.files/%s" .Page.File.BaseFileName $cssPath) }}
+  {{else}}
+    {{ $.Scratch.Set "diskcss" "" }}
+    {{ $.Scratch.Set "cssfn" "" }}
+  {{end}}
+{{end}} 
+{{end}}
+{{ $diskcss := $.Scratch.Get "diskcss" }}
+{{ $cssfn := $.Scratch.Get "cssfn"  }}
+
+{{ if .Get "jsPath"}}
+{{ $jsPath := .Get "jsPath" }}
+{{ $tfn1 := path.Join .Page.File.Dir $jsPath }}
+{{ $tfn2 := path.Join .Page.File.Dir (printf "%s.files/%s" .Page.File.BaseFileName $jsPath ) }}
+{{ if (fileExists $tfn1) }}
+  {{ $.Scratch.Set "diskjs" $tfn1 }}
+  {{ $.Scratch.Set "jsfn" $jsPath }}
+{{else }}
+  {{if (fileExists $tfn2) }}
+    {{ $.Scratch.Set "diskjs" $tfn2 }}
+    {{ $.Scratch.Set "jsfn" (printf "%s.files/%s" .Page.File.BaseFileName $jsPath) }}
+  {{else}}
+    {{ $.Scratch.Set "diskjs" "" }}
+    {{ $.Scratch.Set "jsfn" "" }}
+  
+  {{end}}
+{{end}}  
+{{end}}
+{{ $diskjs := $.Scratch.Get "diskjs" }}
+{{ $jsfn := $.Scratch.Get "jsfn"  }}
+
+
+{{ $id := delimit (shuffle (seq 1 9)) "" }}
+{{/* $id :=  ($htmlfn | urlize) | replaceRE "[/|.]" "_" */}}
+{{ $cssid := printf "css%s" $id | urlize }}
+{{ $htmlid := printf "html%s" $id | urlize}}
+{{ $jsid := printf "js%s" $id | urlize}}
+
+
+<div class="demoContainer">
+{{ if (not $hideCode)}}
+
+  <div class="code-copy" >
+	<p style="background-color:#ffeb3b80">原始碼:
+	  <a href= {{$htmlfn}} target="_blank"> html </a> 
+	  {{ if ne $cssfn "" }}
+	  <a href= {{$cssfn}} target="_blank"> css </a>
+	  {{end}}
+	  {{ if ne $jsfn "" }}
+	  <a href= {{$jsfn}} target="_blank"> js </a>
+	  {{end}}
+	</p>
+	<button class="btn-primary" onclick="expandsw(this,'{{$id }}')">展開</button>   
+	
+	​  <button class="tablinks" onclick="openTab(event, '{{$htmlid}}')">HTML</button>
+	   {{ if ne $cssfn "" }}
+      <button class="tablinks" onclick="openTab(event, '{{$cssid}}')">CSS</button>
+	  {{end}}
+	  {{ if ne $jsfn "" }}
+      <button class="tablinks" onclick="openTab(event,  '{{$jsid}}')">JS</button>
+	  {{end}}
+	<div class="tab3" id="{{$id}}">
+	<pre id="{{$htmlid}}" class="tab3content active no-hugo-post"><code class="language-html">{{- readFile $diskhtml -}}</code></pre>
+    {{ if ne $cssfn "" }}
+	  <pre id="{{$cssid}}" class="tab3content no-hugo-post"><code class="language-css">{{- readFile $diskcss -}}</code></pre>
+	{{end}}
+	{{ if ne $jsfn "" }}
+	  <pre id="{{$jsid}}" class="tab3content no-hugo-post"><code class="language-js">{{- readFile $diskjs -}}</code></pre>
+	{{end}}
+	</div>
+  </div>
+{{ end }}  
+
+{{ if (not $hideEdit)}}
+  <button class="btn-primary" onclick="switchEdit(this)">編輯</button> 
+  <textarea class="switchable switchEdit" >  
+  {{  readFile $diskhtml }}    
+  </textarea>
+  <button class="btn-primary switchable switchEdit" onclick="execArea(this)">執行</button><br/>
+{{ end }}
+
+{{ if (not $hideResult)}}
+  <iframe class="Result" src={{ $htmlfn}} style="min-height:150px;height:max-content;max-height:480px" > </iframe>
+{{ end }}
+</div>
+

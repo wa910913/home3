@@ -1,0 +1,71 @@
+.info{
+    border-style:solid!important;
+    border-color:  #84c2eb!important;
+    background-color:  #84c2eb57!important;
+}
+.warning, .error {
+    border-style: solid!important;
+    border-color: rgba(217, 83, 79, 0.8) !important;
+    background-color: #FAE2E2!important;  
+}   
+.tip  {
+    border-style: solid!important;
+    border-color: rgba(92, 184, 92, 0.8) !important;;
+    background-color: #E6F9E6!important;
+}
+.message{
+  border-style:solid!important;
+  border-color:  #84c2eb!important;
+
+}
+.notices {
+    /*margin: 1rem 2rem 1rem 3rem;*/
+    position: relative;
+    .info,.warning,.tip{
+        margin:0px;
+        border-width: 1px 1px 1px 8px;
+        padding-left: 1rem;
+        padding-right:1rem;    
+        /*
+        &:before{
+            position:absolute;
+            top: -22px;
+            left: 2px;
+            font-family: "Font Awesome 5 Free"; 
+            font-weight: 900; 
+            font-size: 14px;
+            color:white;
+            content: "\f129";
+        }
+        &:after{
+            position:absolute;
+            top: -22px;
+            left: 18px;
+            font-size: 14px;
+            color:white;
+            content: "訊息"; 
+        }
+        */
+    }
+     /*
+    .warning {
+        &:before{
+        content: "\f7ba";
+        }
+        &:after{
+            content: "注意";
+        } 
+    }
+
+    .tip {
+        &:before{
+        content: "\f7ba";
+        }
+        &:after{
+            content: "註記";
+        } 
+    }
+     */ 
+   
+}
+ 

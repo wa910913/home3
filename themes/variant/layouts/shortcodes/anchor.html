@@ -1,0 +1,3 @@
+{{- "<!--html_preserve-->" | safeHTML -}}
+<span id='{{.Get "id"}}'>⛳{{if .Get "title"}} {{with .Get "title"}} {{.|markdownify}}{{end}}{{end}} </span>
+{{- "<!--/html_preserve-->" | safeHTML -}}

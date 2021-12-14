@@ -1,0 +1,32 @@
+<!-- html_demo.html
+fileExists 這個函數吃的是contents下面的路徑,例如(/contents/web),則 
+web/javascript/part1basic/t3_DOM_mouse_event.files/ex_mouse1.html
+如果有外部檔案,則必須和原來的md同一個子目錄 
+-->
+{{- "<!--html_preserve-->" | safeHTML -}}
+{{ $filePath := .Get "filePath" }}
+{{ $fn :=partial "func/altpath"  (dict "content" . "path" $filePath)}}
+{{ $diskfn := path.Join .Page.File.Dir $fn}}
+{{ with $fn}}
+{{ $syntax := path.Ext $diskfn }}
+{{- $id := delimit (shuffle (seq 1 9)) "" -}}
+<div class="demoContainer">
+<!-- 源碼 -->  
+<div class="code-copy" id="{{$diskfn | urlize}}">
+<button class="btn-primary" onclick="expandsw(this,'{{$id}}')">展開</button>   
+<a href= {{$fn}} target="_blank"> 原始碼({{ path.Base $diskfn }})</a>
+<pre id="{{$id}}" ><code class="language-{{$syntax}}">{{- readFile $diskfn -}}</code></pre>
+</div>
+<!-- 編輯 -->
+<button class="btn-primary" onclick="switchEdit(this)">編輯</button> 
+<textarea class="switchable switchEdit" >  
+{{-  readFile $diskfn -}}    
+</textarea>
+<button class="btn-primary switchable switchEdit" onclick="execArea(this,'{{$diskfn | relURL| path.Dir }}')">執行</button><br/>
+<!-- iframe -->
+<iframe class="Result" src={{ $fn}} style="min-height:150px;height:max-content;max-height:480px"> </iframe>
+</div>
+{{- else -}}
+🐞找不到檔案: {{$filePath}}
+{{- end -}}
+{{- "<!--/html_preserve-->" | safeHTML -}}

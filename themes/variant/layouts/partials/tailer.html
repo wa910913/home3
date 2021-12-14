@@ -1,0 +1,90 @@
+{{ $assetBusting := not .Site.Params.disableAssetsBusting }}
+  <script src="{{"js/featherlight.min.js" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
+  <script src="{{"js/featherlight.gallery.min.js" | relURL}}{{ if  $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
+  <link href="{{"css/featherlight.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+  <link href="{{"css/featherlight.gallery.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+  <!-- hljs v10.4.1 -->
+  <script src="{{"js/highlight.min.js" | relURL}}"></script>
+  {{/*  
+      <!-- hljs v11 -->
+  <script src="{{"js/hljs11/highlight.min.js" | relURL}}"></script>
+  */}}
+  <script src="{{"js/hugohelper.js" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
+  {{ range .Site.Params.custom_css -}}
+  <link href="{{(printf "%s" .) | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+  {{- end }}
+  <link href="{{"css/mystyle.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">    
+  <script src='{{"js/variant.js" | relURL}}{{ if  $assetBusting }}?{{ now.Unix }}{{ end }}'></script>
+
+<script>
+  {{ with .Site.Params.searchroot }}
+    let idxfile = "{{ (printf "%sindex.json" .)| absURL }}"  
+  {{ else}}
+   let idxfile = "{{ "index.json"| absURL }}"  
+  {{ end }}
+</script>
+<script src='{{"js/localsearch.js" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}'></script>
+  {{ if (or (and (ne .Params.disableMermaid nil) (not .Params.disableMermaid)) (not .Site.Params.disableMermaid)) }}
+      {{ if isset .Params "custommermaidurl" }}
+          <script src="{{ .Params.customMermaidURL }}"></script>
+      {{ else if isset .Site.Params "custommermaidurl" }}
+          <script src="{{ .Site.Params.customMermaidURL }}"></script>
+      {{ else }}
+          <script src="{{"js/mermaid.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
+      {{ end }}
+      <script>
+          mermaid.initialize({ startOnLoad: true });
+      </script>
+  {{ end }}
+
+  {{$usejax := (and (not .Params.nomath) (not .Site.Params.nomath))}}
+  {{- if $usejax -}}
+  <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['\($', '$\)'], ['\\(', '\\)']],
+          displayMath: [['$$','$$']  , ['\\[','\\]']] 
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+      /*
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+      */      
+    
+      </script>
+      <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+        src="https://example.com/mathjax/MathJax.js?config=TeX-AMS_CHTML">
+      </script>  
+      
+   {{- end -}}
+
+{{with .Params.Demo }}
+  <link href="{{"css/demoContainer.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">    
+  <script src="{{"js/demoContainer.js"| relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
+{{end}}
+
+{{with .Params.Report }}
+    
+<script>
+   /*暫時留著,STATA的表格沒有thead 這裡出問題
+	$(document).ready(function() {
+      $('.outTable table').dataTable();
+    } );
+   */
+</script> 
+
+{{end}}
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    jumpto = document.querySelector("#sidebar .active");
+     if (jumpto!=null) jumpto.scrollIntoViewIfNeeded(true);//scrollIntoView();
+  
+  });    
+  
+  </script>

@@ -1,0 +1,10 @@
+
+{{-  $num := 3  -}}
+最近3篇<br/>
+{{-  with .Site.RegularPages  -}}
+<ul>
+{{-  range first $num .ByLastmod.Reverse   -}}
+<li><a href="{{-  .Permalink  -}}"> <i class="far fa-clock" ></i>{{-   .Title  -}}[{{- dateFormat "2006-01-02 PM 03:04" .Lastmod -}}]</a></li>
+{{-  end  -}}
+</ul>
+{{- end  -}}

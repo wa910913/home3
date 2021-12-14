@@ -1,0 +1,10 @@
+{{- $host := default "http://u18docker:3000" (.Get "host") -}}
+{{- $repo := .Get "repo" -}}
+{{- $file := .Get "file" -}}
+<!-- /repos/{owmer}/{repo}/contents/{filepath} -->
+{{- $apistr := printf "%s/api/v1/repos/linchao/%s/contents/%s" $host $repo $file -}}
+{{- $dataJ := getJSON $apistr  -}}
+{{ $con := base64Decode $dataJ.content }}
+<p>檔案{{ .Get "file"}}:內容</p>
+<pre ><code class='{{if .Get "lang"}}{{.Get "lang"}}{{else}}html{{end}}'> {{$con | htmlEscape}}</code></pre>
+{{/* highlight $con (.Get "lang") (.Get "options") */}}

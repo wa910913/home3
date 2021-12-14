@@ -1,0 +1,16 @@
+
+name = "variant"
+license = "MIT"
+licenselink = ""
+description = "lecture theme , based on Learn theme"
+homepage = "https://github/"
+repo = "https://github"
+tags = ["documentation", "linjwjcen", "learn", "doc", "search"]
+features = ["documentation", "menu", "nested sections", "search", "mermaid"]
+min_version = 0.1
+
+[author]
+  name = "linjwjcen"
+  homepage = "https://airway5.github.io/"
+
+

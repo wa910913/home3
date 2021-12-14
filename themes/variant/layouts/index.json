@@ -1,0 +1,26 @@
+{{/* [{{ range $index, $page := .Site.Pages }}
+		註解:sid section index 
+*/}}
+{{- .Scratch.Set "idx"  0 -}}
+[{{- range $sid, $sec := where (where .Site.Pages "Kind" "section") "Params.hidden" "!=" true -}}
+{{- range $index, $page := .RegularPages -}}		
+{{- if ne $page.Type "json" -}}
+{{- if partial "func/isshown.html" $page -}}
+{{- if (gt (int ($.Scratch.Get "idx")) 0) -}},{{- end }}
+{
+	{{- if .Site.Params.searchroot -}}
+	"uri": "{{.Site.Params.searchroot}}{{ $page.Permalink }}",
+	{{- else -}}
+	  "uri": "{{ $page.Permalink }}",
+	{{- end -}}	
+	"title": "{{ htmlEscape $page.Title}}",
+	"tags": [{{ range $tindex, $tag := $page.Params.tags }}{{ if $tindex }}, {{ end }}"{{ $tag| htmlEscape }}"{{ end }}],
+	"description": "{{ htmlEscape .Description}}",
+	"content": {{$page.Plain | jsonify}}
+	{{- $idx:= add (int ($.Scratch.Get "idx"))  1 -}}
+	{{- $.Scratch.Set "idx"  $idx -}}
+}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}]

@@ -1,0 +1,2 @@
+{{- $class := default "m-auto" (cond .IsNamedParams (.Get "class") (.Get 0)) -}}
+<div class='mermaid {{$class}}' >{{ safeHTML .Inner }}</div>

@@ -1,0 +1,17 @@
+{{ partial "header.html" . }}
+
+<ul class="tags-listing">
+	{{ $tax :=.Data.Plural }} 
+    {{ $data := .Data }}
+	{{ $site:= .Site}}
+    {{ range $key,$value := .Data.Terms.Alphabetical }}
+       {{ $apath := printf "/%s/%s" $tax $value.Name}}
+		{{ $pages:= $site.GetPage $apath }}
+	<li class="site-tag"> 
+	<a href="{{ $pages.RelPermalink }}">
+	{{ replace $value.Name "-" " " }} <sup>{{ $value.Count }}則</sup></a>
+	</li>
+    {{ end }}
+ </ul>
+ 模板terms.html🐞
+ {{ partial "footer.html" . }}

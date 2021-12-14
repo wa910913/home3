@@ -1,0 +1,6 @@
+{{ $item := first 1 $.Site.RegularPages }}
+{{ $link := index $item 0 }}
+{{ return gt (len (findRE "\\.html$" $link.Permalink)) 0 }}
+
+
+ 

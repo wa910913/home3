@@ -1,0 +1,8 @@
+{{- "<!--html_preserve-->" | safeHTML -}}<span  class="codenote">🏷
+{{- $anchor := default "" (cond .IsNamedParams (.Get "anchor") (.Get 0)) -}}
+{{- with $anchor -}} 
+<a   href="#{{- $anchor -}}">註解</a>
+{{- end -}}
+<div   class="tooltiptext" >
+{{- .Inner | markdownify   -}}
+</div></span>{{- "<!--/html_preserve-->" | safeHTML -}}

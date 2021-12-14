@@ -1,0 +1,35 @@
+{{ $pages := slice}}
+{{ range where $.Pages "Kind" "section" }}
+  {{ $weight := index (findRE "[\\d]+" .Title) 0 }}
+  {{ $weight := default .Title $weight }}   
+  {{ $pages = $pages | append (dict "page" . "weight" $weight) }}
+{{ end }}
+{{ $pages := sort $pages "weight" }}
+
+{{ $normal :=slice }}
+{{ range where $.Pages "Kind" "page" }}
+{{ $weight := index (findRE "([\\d][\\d|.]?[\\d|.]*)" .Title) 0 }}
+{{ $weight:= replaceRE "^[[:alpha:]]?" "" $weight }}
+{{ $sw:=split $weight "."}}
+{{ $data := newScratch }}
+{{ $data.Set "tmp" "" }}
+{{ with $weight }}
+  {{range $idx:=(seq 0 2) }}
+  {{if lt $idx (len $sw) }}
+    {{with index $sw $idx }} {{/*1. 會被分解為2個,後面是空字串*/}}
+      {{ $data.Add "tmp" (printf "%03d." (int .)  ) }} 
+    {{end}}  
+  {{ else}}
+  {{ $data.Add "tmp" "000." }} 
+  {{end}}
+  {{end }}
+  
+{{ end }}  
+{{ $weight := $data.Get "tmp" }}
+{{ $weight := default .Title $weight }}   
+{{ $normal = $normal | append (dict "page" . "weight" $weight) }}
+{{ end }}
+{{ $normal := sort $normal "weight" }}
+{{ $pages := append $pages $normal }}
+{{/* 會有空元素 */}}
+{{ return $pages}}

@@ -1,0 +1,41 @@
+<div id="top-pane" class="navbar  fixed-top ">
+  <div class="container-fluid">
+  <span >
+    <a  href='{{- "/" | relURL -}}' class="fs-5 accessory"><i class="fas fa-home"></i>{{- .Site.Title -}}</a>
+    <span id="sidebar-toggle-span" class="fs-5"><i class="fas fa-align-justify"></i></span>
+  </span>
+
+  {{- if (not .IsHome) -}}
+  <span >
+
+    {{- if or (eq .Kind "taxonomy") (eq .Kind "term") -}}
+    {{- .Data.Singular -}} ::
+    {{- end -}}
+<!-- article toc + title -->
+    {{- $toc := and (not .Params.disableToc) .IsPage -}}
+    {{ if $toc }}
+      {{ partial "toc.html" . }} 
+    {{- end -}}
+    <span class="fs-5 accessory" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+      title='最後修改{{ .Lastmod.Format "January 2, 2006" }}'>{{- .Title -}}</span>
+<!-- article toc -->        
+    {{ if and (isset .Site.Params "editsite") (ne .Site.Params.editsite  "" ) }}
+      {{ $ext:= partial "func/getext.html" . }}
+      <a class="github-link" title='{{T "編輯網頁"}}' 
+         href="{{ .Site.Params.editsite | safeURL}}{{ replace .Page.File.Dir "\\" "/" }}{{ .Page.File.BaseFileName }}.{{$ext}}" target="blank">
+        <i class="fas fa-code-branch"></i>
+      </a>
+    {{ end }}
+
+    </span>
+  
+  <span>
+    {{- partial "tags.html" . -}}
+  </span>
+  
+  {{- end -}}
+    <span >
+    {{partial "localsearch.html" .}}
+    </span>
+</div> <!-- container-fluid -->
+</div>

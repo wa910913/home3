@@ -1,0 +1,41 @@
+<nav id="sidebar">
+  {{ $stopbynode := . }}
+    <ul class="nav flex-column topics" id="home-topics">
+      {{if eq .Site.Params.ordersectionsby "title"}}
+        {{range .Site.Home.Sections.ByTitle}}
+          {{if partial "func/isshown" . }}
+          {{- .Scratch.Set "stopbynode" $stopbynode -}}  
+          {{- .Scratch.Set "parent" "home-topics" }}
+          {{ partial "walk.html" . -}}
+          {{ end }}
+        {{end}} 
+      {{else}}
+        {{range .Site.Home.Sections.ByWeight}}
+          {{if partial "func/isshown" . }}
+          {{- .Scratch.Set "stopbynode" $stopbynode -}}  
+          {{- .Scratch.Set "parent" "home-topics" }}
+          {{ partial "walk.html" . -}}
+          {{end}}
+        {{end}}  
+      {{end}}  
+  </ul> 
+    {{ $disableShortcutsTitle := .Site.Params.DisableShortcutsTitle}}
+    {{with .Site.Menus.shortcuts}}
+    <hr/>
+    <section id="shortcuts">
+      <ul>{{ if not $disableShortcutsTitle}}{{ "Shortcuts"}}{{ end }}</ul>
+      <ul>
+        {{ range sort . "Weight"}}
+        <li>
+          {{.Pre |markdownify}}<a href="{{.URL | absURL }}">{{safeHTML .Name}}</a>{{.Post |markdownify}}
+        </li>
+        {{end}}
+      </ul>
+    </section>
+    {{- end -}}
+    <hr/>
+    <section id="footer">
+      {{ partial "menu-footer.html" . }}
+    </section>
+  <!-- </div> -->
+</nav>

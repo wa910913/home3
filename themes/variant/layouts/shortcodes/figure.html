@@ -1,0 +1,13 @@
+{{- "<!--html_preserve-->" | safeHTML -}}<figure  class="figure nopre {{ with .Get "class"}} {{.}}{{end}}">
+{{- $tfn1 :=  (.Get "src")  -}}
+{{- $tfn2 :=  (printf "%s.files/%s" .Page.File.BaseFileName (.Get "src")) -}}
+{{- $dpath := path.Join "content" (path.Dir .Page.File.Path) $tfn1 -}}
+<!-- 指定的路徑不存在時,找預設路徑  -->
+{{- $src := cond (fileExists $dpath) $tfn1 $tfn2 -}}
+<img src="{{ $src }}" class="figure-img w-100 " {{- with .Get "width" }} width="{{ . }}"{{ end -}} {{- with .Get "height" }} height="{{ . }}"{{ end -}} /> 
+{{- with (.Get "caption") -}}
+<figcaption class="figure-caption">
+{{ . | markdownify -}}
+</figcaption>
+{{- end -}}
+</figure>{{- "<!--/html_preserve-->" | safeHTML -}}

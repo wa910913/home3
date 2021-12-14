@@ -1,0 +1,18 @@
+<!-- attachtoa title="" path="" -->
+{{- "<!--html_preserve-->" | safeHTML -}}
+{{- $title := default "附件" (.Get "title") -}}
+{{- $path := .Get "path" -}}
+{{- $dpath := path.Join (path.Dir .Page.File.Path) $path -}}
+<a id="{{- md5 $dpath -}}" data-posix-Id="{{- md5 $dpath -}}" 
+data-role-posix data-posix-title="{{$title}}" 
+data-posix-url="{{$path}}" 
+{{- with .Get "posixclass" }} data-posix-class="{{.}}" {{end -}}
+href="{{- $path -}}"> {{- with fileExists $dpath }}👍{{ else }}😒{{ end -}}<span class= "btn-outline-warning">{{- $title -}}({{- $path -}})</span>
+</a>
+{{- if eq (path.Ext $path) ".html" }}
+{{-  readFile $dpath  -}}    
+{{- end -}}
+{{- if eq (path.Ext $path) ".png" }}
+<img src="{{$path}}" {{ with .Get "class"}}class="{{- . -}}"{{- end -}}>
+{{- end -}}
+{{- "<!--/html_preserve-->" | safeHTML -}}

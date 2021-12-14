@@ -1,0 +1,14 @@
+{{ $pattern := default "\\.(gif|jpg|jpeg|tiff|png|bmp)" (.Get "pattern") }}
+{{ with .Site.GetPage "section" "report" }}
+  {{ $resources := .Resources.ByType "image"}}
+  {{ range $resources }}
+    {{ with . }}
+      <!--<img style="max-width: 100%;" src="{{ .RelPermalink }}">-->
+        {{- $isimg := lower .Name | findRE $pattern }}
+        {{- if $isimg  }}
+		  {{$ext := path.Ext .Name}}
+		  <img id={{.Name}} src="data:image/{{$ext}};base64,{{ .Content | base64Encode }}" > <br />
+        {{- end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

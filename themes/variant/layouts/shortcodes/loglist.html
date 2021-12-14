@@ -1,0 +1,53 @@
+
+{{$dir := (.Get "dir") }}
+{{$ext := (default ".txt$"  (.Get "ext") )}}
+{{ $apath := printf "content/%s"  (path.Join .Page.File.Dir  $dir) }}
+{{ $files := readDir $apath}}
+	
+  {{ range $files }}
+	{{$display := cond ( ge (len (findRE $ext .Name)) 1)  true false}}  
+    
+   {{/* $display := strings.HasSuffix .Name $ext */}}
+    {{ if $display }}
+ 
+<!--- logfile(已經搬走) --> 
+   
+
+{{ $file := .Name}}
+{{ $filepath := path.Join $apath $file }}
+
+{{ $syntax := "stata" }}
+
+<div class="expand">
+    <div class="expand-label" style="cursor: pointer;" onclick="$h = $(this);$h.next('div').slideToggle(100,function () {$h.children('i').attr('class',function () {return $h.next('div').is(':visible') ? 'fa fa-chevron-down' : 'fa fa-chevron-right';});});">
+        <i style="font-size:x-small;" class="fa fa-chevron-right"></i>
+        <span>
+        {{$filepath}} 
+    	</span>
+    </div>
+    <div class="expand-content" style="display: none;">	
+	
+<div class="code-copy" id="{{$file | urlize}}">
+	<div class="code-copy-header"><div class="action-buttons"></div><span title="" class="filename">{{$filepath}}</span><i class="icon-{{$syntax}} input"></i></div>
+	<button class="copy-button" title="Copy to clipboard" data-clipboard-snippet>
+			<div class="copy-text"><i class="icon-clipboard"></i> COPY</div>
+	</button>
+	<pre><code class="language-{{$syntax}}">{{- readFile $filepath -}}</code></pre>
+</div>
+
+    </div>
+</div>
+   
+ 
+ <!--- logfile -->
+ 
+ 
+ 
+ 
+ 
+ 
+    {{end}}	
+	
+	
+	
+  {{ end }}

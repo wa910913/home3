@@ -1,0 +1,50 @@
+kind: pipeline
+type: docker
+name: default
+trigger:
+  branch:
+    - master
+ 
+steps:
+- name: submodules
+  image: alpine/git
+  commands:
+  - git submodule init
+  - git submodule update --recursive --remote
+#  - git submodule foreach --recursive git checkout master
+  
+
+- name: Build 
+  image: airways1/hugo-builder
+  pull: never
+  volumes:
+  - name: srcsite
+    path: /drone/src/build
+  pull: never
+  commands:
+  - hugo version
+  - hugo --destination /drone/src/build 
+
+  
+- name: deploy
+  image: cschlosser/drone-ftps
+  volumes:
+  - name: srcsite
+    path: /drone/src/build
+  environment:
+    FTP_USERNAME:
+      from_secret: FTP_USERNAME
+    FTP_PASSWORD:
+      from_secret: FTP_PASSWORD
+    PLUGIN_HOSTNAME: www2.nkust.edu.tw
+    PLUGIN_DEST_DIR: /www/Javascript/2021
+    PLUGIN_SECURE: false
+    PLUGIN_VERIFY: false    
+    PLUGIN_SRC_DIR: /build
+  clean_dir: true
+    
+
+volumes:
+- name: srcsite
+  temp: {}
+  

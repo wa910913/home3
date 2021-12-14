@@ -1,0 +1,61 @@
+{{ $stopbynode := .Scratch.Get "stopbynode" }}
+{{ $parent := .Scratch.Get "parent" }}
+
+{{ if .File }} <!--bug1: zero object test 看看這會怎樣 發現是因為沒有_index.md-->
+{{ if eq .Name $stopbynode.Name -}} <!--$stopbynode 和目前的文章是一樣的,因此要打光-->
+<li class="nav-item active" data-bs-toggle="tooltip" data-bs-placement="right" title="{{.Title}}">
+{{else}}
+<li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="{{.Title}}">
+{{end}}     
+
+  <a class="nav-link" 
+    href="{{ .RelPermalink }}"><i class="far fa-folder"></i>{{ .Title }}  </a>
+    <span class="ps-1" data-bs-toggle="collapse" data-bs-target="#menu_item_{{.File.UniqueID}}" {{ if eq .Name $stopbynode.Name -}} aria-expanded="true"> {{else}}aria-expanded="false">{{end}}
+      <i class="fas fa-caret-up pairicon-open"></i>
+      <i class="fas fa-caret-down pairicon-close"></i>
+    </span>
+  <ul id="menu_item_{{.File.UniqueID}}"  
+  {{ if .IsAncestor $stopbynode -}}
+    class="submenu collapse show" 
+  {{ else -}}   
+    class="submenu collapse" 
+  {{ end -}}
+  data-bs-parent="#{{ $parent }}">
+
+  {{$parent := printf "menu_item_%s" .File.UniqueID }}  
+  {{ $sublist := partial "func/mixsort.html" . }}
+  
+  {{ range $sublist }} <!-- 可以是原先的range .Pages.ByTitle,按照原本的Title排序 -->
+  {{ with .page }} <!--$sublist範圍內的每一個項目-->
+    {{- if partial "func/isshown.html" . -}}
+      {{- if .Pages -}}  <!--如果是NIL,就是一般網頁,否則就是section-->
+        <li>
+        {{- .Scratch.Set "stopbynode" $stopbynode -}} 
+        {{- .Scratch.Set "parent" $parent -}}  
+        {{- partial "walk.html" . -}}
+        </li>
+      {{- else -}} <!--一般網頁-->
+      {{- if eq .File.UniqueID $stopbynode.File.UniqueID}} <!--同一篇文章-->
+        <li class="nav-item active">
+      {{- else }}
+        <li class="nav-item">
+      {{- end -}}    
+          <a class="nav-link" href="{{ .RelPermalink }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">
+             {{- with .Params.pre -}}
+              <span class="pre">{{. |markdownify}}</span>
+             {{ end -}}
+             {{ .Title }}
+             {{- with .Params.post -}}
+              <span class="post">{{. |markdownify}}</span>
+             {{ end -}}
+          </a></li> 
+      {{- end -}}    
+    {{- end -}} <!-- isshown -->
+    {{end}}
+  {{- end -}}
+  </ul>
+</li>   
+
+{{- end -}}  <!--bug1 end: 測試 zero object-->
+     
+  

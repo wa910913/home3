@@ -1,0 +1,6 @@
+{{- $type := default "info" (cond .IsNamedParams (.Get "type") (.Get 0)) -}}
+<div class="notices {{ with (.Get "class") }} {{ . }} {{else}}ms-5{{end}}">
+<div class="{{ $type }}">
+{{- .Inner |htmlUnescape| safeHTML | safeJS|markdownify |htmlUnescape|safeHTML -}}
+</div>
+</div>

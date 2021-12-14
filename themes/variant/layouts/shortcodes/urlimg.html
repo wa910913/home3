@@ -1,0 +1,21 @@
+{{/*
+ boundle page 用的
+*/}}
+
+{{ $image := .Page.Resources.GetMatch (.Get "name") }}
+{{ $image32 := $image.Resize "32x" }}
+{{ $image320 := $image.Resize "320x" }}
+{{ $image800 := $image.Resize "800x" }}
+{{ $image1300 := $image.Resize "1300x" }}
+
+<figure>
+  <img class="lazy" sizes="100vw" 
+    src="data:image/jpeg;base64,{{ $image800.Content | base64Encode }}" 
+    data-srcset="{{ $image320.RelPermalink }} 320w, {{ $image800.RelPermalink }} 800w, {{ $image1300.RelPermalink }} 1300w"
+    {{ with $image.Title }} alt="{{.}}" {{ end }}
+  >
+  {{ with $image.Title }}
+  <figcaption>{{.}}</figcaption>
+  {{ end }}
+</figure>
+

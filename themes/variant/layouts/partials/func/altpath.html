@@ -1,0 +1,5 @@
+
+{{ $tfn1 := path.Join .content.Page.File.Dir .path }}
+{{ $tfn2 := path.Join .content.Page.File.Dir (printf "%s.files/%s" .content.Page.File.BaseFileName .path) }}
+{{ $rst := cond (fileExists $tfn1) .path ( cond (fileExists $tfn2) (printf "%s.files/%s" .content.Page.File.BaseFileName .path) "") }}
+{{return $rst }}

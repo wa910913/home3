@@ -1,0 +1,5 @@
+{{ $num := default 3 (.Get "number") }}
+{{ range first $num (.Site.RegularPages).ByLastmod.Reverse  }}
+<li><a href="{{ .Permalink }}">{{  .Title }}</a></li>
+
+{{ end }}

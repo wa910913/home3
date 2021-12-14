@@ -1,0 +1,24 @@
+{{- $pattern := default "[.]*\\.(gif|jpg|jpeg|tiff|png|bmp)" (.Get "pattern") -}}
+{{- $prompt:=default "嵌入檔案"  (.Get "title") -}}
+{{- $section := default "report" (.Get "section") -}}
+{{- $page:= default (.Site.GetPage "section" $section) -}}
+
+
+{{- range  $page.Resources  -}}
+{{- $filetype := .MediaType.SubType -}}
+{{- $webpath := .RelPermalink -}}
+{{- $path := path.Join $page.File.Dir .Name -}}
+{{- $s64:= base64Encode .Content -}}
+{{- if findRE $pattern .Name -}}
+
+{{- if  (findRE "(gif|jpg|jpeg|tiff|png|bmp)" $filetype) -}}
+<img class="embeded" style="margin:0px;width:50%" src="data:image/{{- $filetype -}};base64,{{- $s64 -}}"><span>👀{{$prompt}}👀</span>  </img>
+{{- else -}}
+<i class="fas fa-paperclip" aria-hidden="true"></i>
+<a download="{{.Name}}" href="data:@file/{{$filetype}};base64,{{- $s64 -}}">{{- $prompt -}}: {{.Name}}</a><br/>
+{{- end -}}
+
+{{- end -}}
+
+
+{{- end -}}  

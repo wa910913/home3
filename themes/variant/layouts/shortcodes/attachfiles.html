@@ -1,0 +1,59 @@
+{{/*
+title:
+root: content or static
+path: 給定,或者就是內定資料夾
+pattern: regular express of file name 
+*/}}
+{{- "<!--html_preserve-->" | safeHTML -}}<div class="attachments {{ with .Get "class"}}{{- . -}}{{-  end  -}}">
+<label>
+<i class="fas fa-paperclip" aria-hidden="true"></i>
+{{- with .Get "title" -}}{{- .| emojify -}}{{- else -}}附件{{- end -}}
+</label>
+<!--除非使用者指定,否則內定是content/當前頁面目錄-->
+{{-  $root := default "content" (.Get "root") -}}
+{{-  $pattern := default "*" (.Get "pattern")  -}}
+<!-- 給定的folder 相對於本頁面DIR -->
+{{-  $pagedir := replace .Page.File.Dir "\\"  "/"   -}}
+{{ $is_path_set := cond (or (isset .Params "path") (isset .Params "folder")) true false }}
+{{ if $is_path_set }} <!-- 指定了路徑 -->
+{{- $folder := or (.Get "folder") (.Get "path")   -}}
+{{- with fileExists (path.Join $root $pagedir $folder)  -}} <!-- 找本頁下的路徑 -->  
+{{- range (readDir ( path.Join $root $pagedir $folder)) -}}
+{{$url := path.Join $pagedir $folder }}
+{{- $.Scratch.Add "filelist" (slice ( dict "name" .Name "path" $url )) -}}
+{{- end -}}   
+{{- else -}}  
+{{- with fileExists (path.Join $root $folder)  -}} <!-- 找根頁下的路徑 -->  
+{{- range (readDir ( path.Join $root $folder)) -}}
+{{- $.Scratch.Add "filelist" (slice ( dict "name" .Name "path" $folder )) -}}
+{{- end -}}          
+{{- end -}}
+{{- end -}}
+{{- else -}}  <!-- 不指定了路徑 -->
+{{- $folder := (printf "%s.files/" .Page.File.BaseFileName)  -}} 
+{{- with fileExists (path.Join $root $pagedir $folder)  -}}
+{{- range (readDir ( path.Join $root $pagedir $folder)) -}}
+{{$url := path.Join $pagedir $folder }}
+{{- $.Scratch.Add "filelist" (slice ( dict "name" .Name "path" $url)) -}}
+{{- end -}}          
+{{- else -}}
+{{- with fileExists (path.Join $root $pagedir )  -}}
+{{- range (readDir ( path.Join $root $pagedir )) -}}
+{{- $.Scratch.Add "filelist" (slice ( dict "name" .Name "path"  $pagedir )) -}}
+{{- end -}}          
+{{- end -}}   
+{{- end -}}
+{{- end -}}
+{{- $filelist := .Scratch.Get "filelist" -}}
+<ol class="attachments-files">
+{{- range $filelist -}}
+{{- if (findRE $pattern .name) -}}
+<li>
+<a id="{{md5 .name | printf "f_%s"}}" href="{{- path.Join .path .name |relURL   -}}" class="toa-item" >
+{{- .name -}}
+</a>
+</li>
+{{- end -}}
+{{- end -}}
+</ol>
+</div>{{- "<!--/html_preserve-->" | safeHTML -}}

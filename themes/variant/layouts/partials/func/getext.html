@@ -1,0 +1,4 @@
+{{- $ext := cond (isset .Page.Params "editext")	.Page.Params.EditExt "" -}}
+{{- $ext := cond (and ( eq $ext "") (isset .Site.Params "editext")) .Site.Params.EditExt $ext -}}
+{{- $ext := default "md" $ext -}}
+{{- return $ext -}}

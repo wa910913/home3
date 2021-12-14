@@ -1,0 +1,32 @@
+<head>
+  <title>{{ .Title }}</title>  
+      <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href='{{"images/favicon.ico" | relURL}}'/>
+    {{ $assetBusting := not .Site.Params.disableAssetsBusting }}  
+    <link rel="stylesheet" href="{{"css/atom-one-dark-reasonable.css" | relURL}}">
+    {{/* <link href="{{"js/hljs11/styles/atom-one-dark-reasonable.min.css" | relURL}}"> */}}
+    <link href="{{"css/syntax.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <script src="{{"js/jquery-3.3.1.min.js"| relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    
+    <script src='{{"js/datatables.min.js" | relURL}}'></script>    
+    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet">    
+    <!-- <link href="{{"css/datatables.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">     -->
+    <link href="{{"css/fontawesome-all.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    {{ range .AlternativeOutputFormats -}}
+      {{/* printf `<link rel="%s" type="%s+%s" href="%s" title="%s" />` .Rel .MediaType.Type .MediaType.Suffix .Permalink $.Site.Title | safeHTML */}}
+    {{ end -}}
+    
+    {{with .Site.Params.themeVariant}}
+    <link href="{{(printf "css/theme-%s.css" .) | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    {{end}}
+    <link href="{{"css/theme.css"  | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    {{ $scss := resources.Get "scss/notice.scss" }}
+    {{ $styles := $scss | resources.ToCSS | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
+
+    {{ partial "custom-head.html" . }}
+  </head>

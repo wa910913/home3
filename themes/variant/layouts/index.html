@@ -1,0 +1,41 @@
+{{ define "main" }}
+<div id="content-wrapper">
+<div id="body-inner"  class="d-flex article p-0 mt-2 ms-2" style="flex: 0 1 40%">
+  <div class="accordion mt-4 w-100"  id="recent-post">
+    {{ $recentposts := default 3 .Params.recentposts }}
+    <p class="h2 mb-4">主題列表</p>
+    {{- range $idx, $value :=  .Site.Sections  -}}
+    {{- if partial "func/isshown.html" . -}}    
+    <div class="accordion mt-2 p-0 ps-4 m-0 ml-auto w-100">
+      
+      <a href="{{.RelPermalink}}" class="text-decoration-none "> 🏷 {{.Title}}</a>
+      <span class="btn btn-outline-primary p-0 " 
+        style="font-size:0.6rem" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#recents_{{$idx}}">最近紀錄 </span>
+      <div id="recents_{{$idx}}" data-bs-parent="#recent-post" class="accordion-collapse collapse">
+        <!--不需要考慮draft根本不會進來-->
+        {{- $list := cond ( ne hugo.Environment "production" ) 
+             ( .RegularPagesRecursive.ByLastmod.Reverse)
+             ( where .RegularPagesRecursive "Params.hidden" "!=" true).ByLastmod.Reverse 
+            -}}
+        {{- range first $recentposts $list -}}
+        <div class="ps-4 pe-0 ">
+              <a href="{{ .RelPermalink }}"><i class="far fa-clock"></i> {{ .Title }} </a>                
+              <blockquote class="ms-3" > 
+                <p class="m-0 p-0 fs-6 text-muted mr-end">[{{dateFormat "2006-01-02 PM 03:04" .Lastmod}}]</p>              
+              {{- partial "summary.html" . -}}
+              </blockquote>
+        </div>
+        {{- end -}}
+      </div>
+    </div><!--accordion-item-->
+    {{- end -}}
+    {{- end -}} 
+
+    
+  </div>  
+</div>
+<div class="px-4" style="flex:5 1 60%">{{.Content}}</div>  
+</div>
+{{ end }}

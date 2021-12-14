@@ -1,0 +1,4 @@
+{{- $eid := cond .IsNamedParams (.Get "id") (.Get 0) -}}
+{{- "<!--html_preserve-->" | safeHTML -}}<div class="collapse info p-3" id="{{ $eid }}">{{- "<!--/html_preserve-->" | safeHTML -}}
+{{- .Inner | markdownify -}}
+{{- "<!--html_preserve-->" | safeHTML -}}</div>{{- "<!--/html_preserve-->" | safeHTML -}}

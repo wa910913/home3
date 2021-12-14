@@ -1,0 +1,13 @@
+{{- if findRE "<!--more-->" .RawContent  -}}
+  {{- .Summary -}}
+{{- else -}}
+{{-  $text := .Content  -}}
+{{-  $list :=findRE "<h2.*?>(.|\n)*?</h2>" $text  -}}
+{{-  range first 5 $list  -}}
+  {{-  $item := replaceRE "<h2.*?>" "" .  -}}
+  {{-  $item := replaceRE "</h2>" "" $item  -}}
+  <p class="text-muted p-0 m-0">{{-  $item  -}}</p>
+{{-  end  -}}
+{{- end -}}
+
+

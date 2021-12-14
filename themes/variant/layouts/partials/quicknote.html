@@ -1,0 +1,33 @@
+<div class="collapse fs-6 pt-2" id="qnote-list">
+    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white ">
+        <span >
+            <!--
+                class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom" 
+                <svg class="bi me-2" width="30" height="24">
+                <use xlink:href="#bootstrap"></use>
+            </svg> -->
+            <span class="fw-semibold">
+                <button  class="btn btn-primary btn-inline" 
+                   data-bs-toggle="collapse" data-bs-target="#qnote-edit"><span data-bs-toggle="tooltip" title="加入速記">加</span></button>
+                <button id="qnote-gsave" class="btn btn-primary btn-inline" 
+                   data-bs-toggle="tooltip" data-bs-placement="left" title="存到硬碟"
+                   onclick="qnSaveGoogle()">存</button>
+                <label for="qnote-load" class="btn btn-primary btn-inline"  data-bs-toggle="tooltip" data-bs-placement="left" title="從檔案載入">載</label>   
+                <input style="display:none" type="file" id="qnote-load" onchange="qnLoadGoogle(this)" />
+                <button id="qnote-clear" class="btn btn-primary btn-inline" 
+                   data-bs-toggle="tooltip" data-bs-placement="left" title="清除全部速記"
+                   onclick="cleanNotes()">清</button>
+            </span>
+        </span>
+        <span class="fw-semibold collapse" id="qnote-edit"> 
+            <input type="text" class="txtitle d-block w-100 h-25 " placeholder="抬頭" />
+            <textarea class="txtBox  d-block w-100 h-75 " placeholder="本文"></textarea>
+            <!-- <button id="qnote-cancel" type="button" class="btn btn-secondary">取消</button> -->
+            <button id="qnote-add-item" onclick="addNote()" class="btn btn-primary">存</button> 
+        </span>
+
+    </div>
+</div>
+{{ $assetBusting := not .Site.Params.disableAssetsBusting }}
+<link href="{{"css/quicknote.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+<script src="{{"js/quicknote.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>

@@ -1,0 +1,80 @@
+{{ $folder := default .Page.File.Dir (.Get "path") }}
+{{ $isdeep := default true (.Get "isdeep" )}}
+{{ $root := default "content" (.Get "root") }}
+{{ $issearch := default false (.Get "issearch") }}
+
+{{ define "read-local-dir" }}
+	
+	{{ $root := .root }}
+	{{ $folder := .folder }}
+	{{ $isdeep := .isdeep }}
+	{{ $files := readDir (printf "/%s/%s" $root $folder) }}
+	
+		{{ range $files }}
+
+			{{ $fstat := os.Stat (printf "/%s/%s/%s" $root $folder .Name ) }}
+			{{$hrefTxt :=  path.Join "./" $folder .Name }}
+
+			{{ if (and ($fstat.IsDir) ($isdeep) )}}
+				<tr>
+					<td class="table-active" style="color:DarkGrey;"> {{ .Name }}</td>
+					<td class="table-active"></td>
+					<td class="table-active"></td>
+				</tr> 
+				{{/* recursive call */}}
+				{{ template "read-local-dir" dict "root" $root "folder" $hrefTxt "isdeep" $isdeep }}
+
+			{{ else }}
+				{{/*不要_開頭,和MD,RMD結尾的檔案 */}}
+			  {{ if (and (not (in  (slice "_" "." "~" ) (substr .Name 0 1))) (.Size)) }}
+		        {{ $e := index (findRE "\\w+$" .Name) 0 }}
+		        {{ if not (in (slice "md" "rmd" "rmarkdown" "markdown") (lower $e)) }}
+				<tr>
+					<td></td>
+					<td>
+						<a href="{{ $hrefTxt |relURL }}">{{ .Name }}</a>
+					</td>
+					<td >{{ .Size }}</td> 
+				</tr>
+			       
+  		        {{end}}
+	          {{end}}
+
+			{{ end }}
+		{{ end }}
+
+{{ end }}
+
+<!--  bs-datatable.js 需要3個 thead and tbody tags and table id -->
+	
+<script>
+	
+	$(document).ready(function() {
+		$('#datatable2').dataTable( { 
+		  {{if $issearch }}
+			searching: true,
+		  {{else}}
+			searching:false, 
+		  {{end}}
+			ordering: false, 
+			order: [], 
+			paging: false,
+			info:false,
+			autowidth:false
+
+		} );
+		// 用來定義共出現幾筆
+		//$('#datatable2_length select').val('50').change();
+	});
+	
+</script>
+<table id="datatable2" class="table display compact hover">
+	<thead>
+		<th>資料夾</th>
+		<th>下載連結</th>
+		<th>大小 <small>/ byte</small>:</th>
+	</thead>
+	<tbody>
+		{{ template "read-local-dir" dict "root" $root "folder" $folder "isdeep" $isdeep }}
+	</tbody>
+</table>

@@ -1,0 +1,28 @@
+{{ $tbl := .Inner }}
+{{ $tbl := replaceRE `(?m:^[\s]*)` "" $tbl }}  {{/* 去掉表格之前的空白*/}}
+{{ $tbl := $tbl | markdownify }}
+{{ $table_class := .Get "table_class" }}
+{{ $thead_class := .Get "thead_class" }}
+{{ if .Get "caption" }}
+    {{ $caption := .Get "caption" }} 
+    {{ $old_cap := "<table>" }}
+    {{ $new_cap := printf "<table >\n<caption >%s</caption>" $caption }}
+    {{ $tbl = replace $tbl $old_cap $new_cap }} 
+{{ end }}
+{{ $old_class := "<table>" }}
+{{ $new_class := printf "<table  class=\"%s\">" $table_class }}
+{{ $tbl = replace $tbl $old_class $new_class }}
+{{ $old_thead := "<thead>" }}
+{{ $new_thead := printf "<thead  class=\"%s\">" $thead_class }}
+{{ $tbl = replace $tbl $old_thead $new_thead }}
+{{ $tbl = replace $tbl "align=\"right\"" "class=text-end" }}
+{{ $tbl = replace $tbl "align=\"left\"" "class=text-start" }}
+{{ $tbl = replace $tbl "align=\"center\"" "class=text-center" }}
+{{ $tbl = replaceRE `(<\s*)(\btbody\b)(\s*[^>]*>)` "$1$2 $3" $tbl }}
+{{ $tbl = replaceRE `(<\s*)(\bth\b)(\s*[^>]*>)` "$1$2 $3" $tbl }}
+{{ $tbl = replaceRE `(<\s*)(\btr\b)(\s*[^>]*>)` "$1$2 $3" $tbl }}
+{{ $tbl = replaceRE `(<\s*)(\btd\b)(\s*[^>]*>)` "$1$2 $3" $tbl }}
+{{- "<!--html_preserve-->" | safeHTML -}}
+<div   class="table-responsive kable">
+{{ $tbl | safeHTML }}
+</div>{{- "<!--/html_preserve-->" | safeHTML -}}

@@ -1,0 +1,79 @@
+<style>
+.hframe > .infobar{
+    position: absolute;
+    top: .3em;
+    right: .2em;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;        
+}
+  .hframe > .infobar button,
+  .hframe > .infobar a
+  {
+    color: #bbb;
+    font-size: .8em;
+    padding: 0 .5em;
+    background: rgba(224, 224, 224, 0.2);
+    box-shadow: 0 2px 0 0 rgb(0 0 0 / 20%);
+    border-radius: .5em;
+  }
+.hframe{
+      padding-top: 1.5rem;
+      position: relative;
+      box-shadow: 6px 4px 6px #9baccb;
+    border: 2px solid #9baccb;      
+}
+.hframe:hover > .infobar{
+      opacity: 1;
+  }
+.hframe .frame-code {
+      display: none;
+      margin-left: 1rem;
+      padding-left: 1rem;
+      border-left: 4px rgb(74 146 197) dotted;
+  }    
+</style>
+<script>
+function showhide(aevent){
+           let e= aevent.target;
+           let ele= e.parentElement.parentElement;
+           ele = ele.querySelector("div.frame-code");
+           if (ele.style.display=="block"){
+              ele.style.display = "none";
+              e.innerText="看內容";
+           }  
+           else{
+            ele.style.display = "block";
+            e.innerText="關閉內容";
+           }
+           aevent.preventDefault();
+         }
+</script>
+<div class="hframe {{ if .Get "uclass"}} {{.Get "uclass"}} {{else}} ms-5 w-75 {{end}}">
+  <div class="infobar">
+  {{if .Get "src"}}
+    <a href="{{.Get "src"}}">外部連結</a>
+  {{ end }}  
+  <a href="#" onclick="showhide(event)">看內容</a>
+
+  </div>  
+   <iframe loading="lazy" style="border: none;width:100%;height:100%" 
+     {{- if (.Get "src") }} 
+       src="{{- .Get "src" -}}" >
+     {{else}}
+       {{ $b64:= printf "<html><head></head><body><article id='main'>%s</article></body></html>" .Inner }}
+       {{ $b64:= $b64 | safeHTML | safeJS | base64Encode }}      
+       src="data:text/html;charset=UTF-8;base64,{{$b64}}" > 
+     {{- end }}
+  </iframe>
+  {{ if (.Get "src" ) }}
+    {{ $relpath := path.Join .Page.File.Dir (.Get "src") }} 
+    <div class="frame-code">
+  <pre><code class="language-html">{{- readFile $relpath -}}</code></pre>    
+</div>
+  {{else}}
+   <div class="frame-code">
+    {{ highlight .Inner html "linenos=table" }}
+   </div>
+  {{end}}  
+</div>
+

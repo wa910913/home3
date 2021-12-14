@@ -1,0 +1,6 @@
+{{- "<!--html_preserve-->" | safeHTML -}}<div class="position-relative warning p-3">{{- "<!--/html_preserve-->" | safeHTML -}}
+{{- $eid := cond .IsNamedParams (.Get "id") (.Get 0) -}}
+{{- .Inner | markdownify   -}}  
+{{- "<!--html_preserve-->" | safeHTML -}}<button type="button" class="btn btn-primary position-absolute top-0 end-0 p-0" 
+    data-bs-toggle="collapse" data-bs-target="#{{ $eid }}">提示</button>
+</div>{{- "<!--/html_preserve-->" | safeHTML -}}

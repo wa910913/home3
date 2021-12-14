@@ -1,0 +1,10 @@
+{{/*
+    CREATED: 2021-July by nm    
+    PATH: layouts/shortcodes/renderas.html
+    EXAMPLE USAGE:
+    {{< renderas adoc >}}
+    AsciiDoc markup
+    {{< /renderas >}}
+*/}}
+{{ $options := dict "markup" (.Get 0) }}
+{{ .Inner | .Page.RenderString $options }}

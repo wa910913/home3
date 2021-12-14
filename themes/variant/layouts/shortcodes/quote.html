@@ -1,0 +1,3 @@
+{{- "<!--html_preserve-->" | safeHTML -}}{{- $anchor := default "" (cond .IsNamedParams (.Get "anchor") (.Get 0)) -}}
+{{- with $anchor -}} <a   href="#{{- $anchor -}}">註解</a> {{- end -}}
+<span  data-bs-toggle="tooltip" data-bs-html="true" {{- with .Get "class" }} data-bs-custom-class ="{{.}}" {{ end }} data-bs-placement= {{- with .Get "side" }} "{{.}}" {{- else -}} "bottom" {{ end -}}title="{{ printf "%s" (.Inner | markdownify) }}">{{- with (.Get "icon") -}} {{.}} {{- else -}}🏷{{- end -}}</span>{{- "<!--/html_preserve-->" | safeHTML -}}

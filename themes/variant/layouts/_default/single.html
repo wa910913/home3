@@ -1,0 +1,13 @@
+{{ define "main" }}
+
+<div id="content-wrapper">
+  {{- partial "menu.html" . -}}
+  <article class="article mx-2 mt-3" id="body-inner">
+    {{ .Content }}
+    {{- partial "custom-footer.html" .}}
+  </article>
+  {{- partial "quicknote" . -}}
+  {{- partial "guide.html" . -}}
+</div>
+
+{{ end }}

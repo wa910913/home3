@@ -1,0 +1,77 @@
+theme = "variant"  
+baseURL = "https://airbone5.github.io/test1"
+#baseURL = "https://airbone4.github.io/class_web" #https://xxx.github.io/xxx
+pygmentsUseClasses = true
+languageCode = "en-us"
+title = "Learn Javascript"
+relativeurls = false
+publishDir = "docs"
+author = "lendjwjcen"
+enableGitInfo = false
+
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$",  "_cache$","README","~.*"]
+ignoreErrors = ["error-remote-getjson"]
+
+#------------------------------------
+uglyurls = true
+enableEmoji = true  
+  # 和搜尋有關
+[outputs]
+ home = [ "HTML", "RSS", "JSON"]
+
+[frontmatter]
+  lastmod = [ "date", ":git", "lastmod", ":fileModTime", ":default"]
+
+[markup]
+#  defaultMarkdownHandler = "blackfriday"
+  defaultMarkdownHandler = "goldmark"
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = false
+    [markup.goldmark.parser]
+      autoHeadingID = true
+      autoHeadingIDType = "github"
+      [markup.goldmark.parser.attribute]
+        block = true 
+        title = true
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = true
+      xhtml = false
+ 
+
+[params]
+  email = "xxx@nkust.edu.tw"
+  # extratheme
+  nomath = false
+  
+  custom_css = []  
+  #---------------------------------
+  # 編輯檔案內定附檔名
+  editext = "md"    
+  author = "len djwj cen"
+  description = "Javascript primer"
+   
+  disableAssetsBusting = false
+  
+  # A title for shortcuts in menu is set by default. Set this to true to disable it.
+  disableShortcutsTitle = false
+  
+   
+  disableMermaid = false
+  customMermaidURL = "https://unpkg.com/mermaid@8.8.0/dist/mermaid.min.js"
+  
+  # Order sections in menu by "weight" or "title". Default to "weight"
+  ordersectionsby = "weight"
+  # Change default color scheme with a variant one. Can be "red", "blue", "green".
+  themeVariant = "mine"
+
+
+
+

@@ -1,0 +1,84 @@
+ 
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+	border-radius: .25rem; 
+} 
+
+
+.demoContainer {
+	border-left: 5px solid #ffeb3b80;
+    margin: 1.5em 10px;
+    padding: 1em 10px .1em 10px;
+}
+.demoContainer textarea{
+  height:-webkit-fill-available;
+  width: 100%; 
+  max-width: 100%;
+}
+.demoContainer pre{
+  height:30px;
+  
+  /*overflow: hidden;*/
+}
+.demoContainer pre.full{
+  height:-webkit-fill-available;
+  
+}
+
+.demoContainer pre:hover, 
+.demoContainer pre:focus,
+.demoContainer pre.full:hover, 
+.demoContainer pre.full:focus { 
+  overflow:auto;
+  min-width: unset;
+  width:unset!important; 
+}
+
+
+.demoContainer div[contentEditable] {
+    white-space: pre;
+    background-color: #78d25f78;
+    font-weight: bold;	
+    padding-left:10px;
+    display: inline-block;	
+}
+.demoContainer .switchEdit {
+   display:none;
+}
+.demoContainer iframe {
+    border-style: dashed;
+    border-color: grey;
+    border-width: 3px;
+	width:100%;
+	/*height:-webkit-fill-available;*/
+}
+ 
+
+
+/* Style the tab content */
+
+.tab3content {
+  display: none;
+  /*
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  */
+}
+.tab3content.active {
+	display:block;
+	height:auto;
+}
+.demoContainer .tab3 {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  height:30px;
+
+}
+.demoContainer .tab3.full{
+  height:-webkit-fill-available; 
+  overflow: auto
+}

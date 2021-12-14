@@ -1,0 +1,5 @@
+{{ $file := cond .IsNamedParams (.Get "file") (.Get 0) }}
+{{ $lang := cond .IsNamedParams (.Get "lang") (cond (eq (len .Params) 2) (.Get 1) "") }}
+{{ $lang := default (last 1 (split $file ".") ) $lang }}
+{{ $relpath := path.Join .Page.File.Dir $file }} 
+<pre><code class="language-{{$lang}}">{{- readFile $relpath  -}}</code></pre>

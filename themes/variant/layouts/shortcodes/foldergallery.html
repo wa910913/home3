@@ -1,0 +1,59 @@
+{{-  $pattern := default "\\.(gif|jpg|jpeg|tiff|png|bmp)" (.Get "pattern") -}}
+{{-  $path := default (printf "./%s.files" .Page.File.BaseFileName  ) (.Get "path")  -}}
+{{-  $rootpath := default "content" (.Get "rootpath") -}}
+{{-  $diskpath :=(printf "/%s/%s%s" $rootpath .Page.File.Dir $path )  -}}
+{{-  $cols := int (default 1 (.Get "cols"))  -}} <!-- 預設1欄-->
+{{-  $show :=default "one" (.Get "show") -}}
+{{-  $colwidth := div 12 $cols -}}
+{{-  $colwidth := cond (eq $show "one") 5 $colwidth  -}}
+{{-  $id := printf "%s/%s" $diskpath $pattern | md5  -}}
+{{-  $.Scratch.Set "idx" 0  -}}
+{{-  range sort (readDir $diskpath)  -}}
+
+    {{-  if eq 0 (mod ($.Scratch.Get "idx")  12 )  -}}
+       <div class="row">
+    {{- end -}}
+    {{- $isimg := lower .Name | findRE $pattern }}
+    <!-- is the current file an image? -->
+    {{- if $isimg -}}
+    <div class="col-{{- $colwidth}} galleryimgs" >
+        {{- if ne $show "one" -}}
+        <!-- 一群 -->
+        <a class="gallery-{{$id }} p0" href="{{-  $path   -}}/{{-  .Name  -}}"><img class="galleryimg" src="{{-  $path   -}}/{{-  .Name  -}}"/></a>
+        {{- else -}}
+          {{- if eq ($.Scratch.Get "idx") 0 -}}
+          <a class="gallery-{{$id}} p0" href="{{-  $path   -}}/{{-  .Name  -}}"><img class="galleryimg" src="{{-  $path   -}}/{{-  .Name  -}}"/>more</a>
+          {{- else -}}
+          <a class="gallery-{{$id}} p0" style="display:none" href="{{-  $path   -}}/{{-  .Name  -}}"><img class="galleryimg" src="{{-  $path  }}/{{-  .Name }}"/></a>
+          {{- end -}}
+        {{- end -}}
+    </div>
+    {{- $.Scratch.Set "idx" (add ($.Scratch.Get "idx") 1) -}}
+    {{- end -}}
+    {{- if eq 0 (mod ($.Scratch.Get "idx")  12) -}}
+     </div>
+    {{- end -}}
+{{-  end -}}
+
+{{- if ne 0 (mod ($.Scratch.Get "idx")  12) }}
+</div>
+{{- end }}
+<style>
+    div.galleryimgs+a{
+        display:block;
+    }
+</style>
+
+<script>
+    $(document).ready(function(){
+        $('.gallery-{{- $id}}').featherlightGallery({
+					gallery: {
+						next: '<<',
+						previous: '>>'
+					}//,
+					//variant: 'featherlight-gallery-{{- $id}}'
+				});
+    });
+</script>        
+
+ 

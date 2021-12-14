@@ -1,0 +1,4 @@
+{{ $rst := cond (eq hugo.Environment "production") 
+          (cond  (eq .Page.Params.hidden true) false true)  
+           true  }}
+{{ return $rst }}

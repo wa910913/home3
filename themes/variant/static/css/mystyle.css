@@ -1,0 +1,514 @@
+/* anchor 類別由js插入,可以右鍵複製連結 */
+
+.anchor {
+color: #00bdf3;
+font-size: 0.5em;
+cursor: pointer;
+visibility: hidden;
+/* margin-left: 0.5em; */
+/* position: absolute; */
+/* margin-top: 0.5em; */
+display: inline-block;
+vertical-align: super;
+
+}
+h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor, h5:hover .anchor, h6:hover .anchor {
+visibility:visible;
+} .mark, mark {
+padding: .2em;
+background-color: #ffc107;
+}
+/*
+mytag:1
+#body-inner pre code.hljs {
+background: #282c34;
+}
+*/
+#body-inner ul {
+list-style-type: none;
+padding-left: 20px;
+margin-left: 2rem;
+}
+
+#body-inner ul  ul{
+margin-left:unset;
+}
+
+#body-inner ul p {
+padding:0px;
+margin:0px;
+}
+#body-inner ul > li {
+position: relative;
+padding-left: 2px;
+}
+#body-inner ul > li::marker {
+content: "🦠"; /*📌*/
+font-size:60%;
+}
+#body-inner ul > li > ul > li::marker{
+content: "✔";
+font-size:60%;
+}
+#body-inner ul > li > ul > li > ul > li::marker{
+content: "✔";
+font-size:60%;
+}
+/*https://stackoverflow.com/questions/25676053/css-selector-to-check-that-attribute-does-not-contain-both-values*/
+#body-inner a:not([class]):not([data-role-posix]){
+text-decoration: none;
+color: inherit;
+border-bottom: 1px solid var(--theme-border-color);
+
+background: #8ce9e44a; /*transparent;*/
+
+}
+
+/* 連結動態顯示
+@keyframes leftright {
+0% {
+background-color: transparent;
+}
+100% {
+background-color: var(--theme-border-color);
+}
+}
+#body-inner a:hover {
+background-color: #0082a7;
+transition: background-color ease 0.8s;
+animation: leftright ease 0.8s;
+}
+*/
+
+#body-inner a:hover,
+#body-inner a:focus {
+background-color: var(--theme-transparent-color);
+transition: background-color ease 2s;
+
+}
+
+#body-inner hr {
+width: 50%;
+
+margin: 1rem auto;
+height: 4px;
+overflow: hidden;
+border: none;
+background: #f106d2;
+}
+
+
+.codenote {
+position: relative;
+/*display: inline-block;
+visibility: visible;*/
+opacity: 100;
+/*width:400px;*/
+
+}
+
+.tooltiptext {
+/*visibility: hidden;*/
+display:none;
+/*max-width: 100%;
+min-width: 250px; 
+width: max-content; */
+width:250px;
+color: #fff !important;
+background-color: #dc3545 !important;
+text-align: left;
+border-radius: 6px;
+padding: 2px 0;
+box-sizing: border-box;
+/* Position the tooltip */
+position: absolute;
+z-index: 1000;
+left: 1rem;
+top: 1rem;
+padding:0.5rem;
+}
+.tooltiptext span{
+  color:#fff !important;
+}
+.tooltiptext code{
+  background-color: transparent;
+  border: #282c34 solid 2px;
+  box-shadow: unset;  
+  display:inline;
+
+}
+
+.codenote a{
+  /*color: #fff !important;*/
+  color: inherit !important; 
+  border:none !important;
+  
+}
+
+.codenote:hover .tooltiptext, .tooltiptext:focus {
+
+display:block;
+
+}
+
+
+#body-inner a.mynote {
+border-bottom: 1px solid #CBF8DF;
+box-shadow: none;
+}
+
+/* 短碼 expand.html */
+/*
+.nopre{
+  white-space:normal;
+  }
+*/  
+div.expand {
+white-space:normal;
+
+}
+.expand-label {
+background: var(--theme-transparent-color);
+margin-bottom: 2px;
+cursor: pointer;
+}
+.expand-label + .expand-content {
+border:solid var(--theme-color) 2px;
+position:relative;
+display:none;
+}
+
+.expand-label + .expand-content.incode {
+white-space:pre;
+/*font-family: monospace;*/
+display:none;
+}
+
+button[data-bs-toggle="collapse"].expand:after
+{
+    font-family: 'Glyphicons Halflings';
+    content: "展"; 
+    float: left;   
+    line-height: 0.8;
+    font-size: 0.8rem;
+    /* rotate "play" icon from > (right arrow) to down arrow */
+    -webkit-transform: rotate(180deg);
+    -moz-transform:    rotate(180deg);
+    -ms-transform:     rotate(180deg);
+    -o-transform:      rotate(180deg);
+    transform:         rotate(180deg);
+}
+button[data-bs-toggle="collapse"].expand.collapsed:after
+{
+    /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+    -webkit-transform: rotate(0deg);
+    -moz-transform:    rotate(0deg);
+    -ms-transform:     rotate(0deg);
+    -o-transform:      rotate(0deg);
+    transform:         rotate(0deg);
+}
+
+
+h2,h3,h4,h5,h6 {
+    /* font-size: 1.5rem; */
+    font-weight:600;
+    margin: 16px 0px 8px 0px;
+    }
+    
+h3 {
+font-size: 1.5rem; 
+font-weight:400;
+margin: 24px 0px 16px 0px;
+color: #0a58ca!important;
+}
+
+h2 {
+border-bottom: 2px solid var(--theme-color) ;
+margin: 40px 0px 16px 0px;
+/*font-size: 1.5rem;*/
+font-weight:600;
+width: calc(100% - 5rem);
+}
+/* shortcode foldergallery.html */
+#body-inner img.galleryimg{
+margin:0px;
+width: 100%;
+}
+
+blockquote {
+border-left: 10px solid #cee2f6;
+margin-top:1rem;
+margin-left:5rem;
+padding-left:1rem;
+width:80%;
+
+}
+blockquote p {
+font-size: 1rem;
+}
+blockquote cite {
+display: block;
+text-align: right;
+color: #666;
+font-size: 1.2rem;
+}
+
+::selection {
+background: #0594cb;
+color: #fff;
+
+}
+
+.toa {
+font-size: 13px !important;
+max-height: 85vh;
+overflow: auto;
+padding: 5px !important;
+min-width: 160px;
+}
+
+#body-inner ol:not([class]) {
+list-style: none;
+margin: 0.25rem 0 0.75rem 0 ;
+
+padding-left: 32px;
+counter-reset: ol-step-counter;
+position: relative
+}
+
+#body-inner ol:not([class])>li {
+counter-increment: ol-step-counter
+}
+
+#body-inner ol:not([class])>li::before {
+background: #5f6368;
+border-radius: 50%;
+color: #fff;
+left: 0;
+position: absolute
+}
+
+#body-inner ol:not([class])>li::before {
+-ms-flex-align: center;
+-ms-flex-negative: 0;
+-ms-flex-pack: center;
+-webkit-box-align: center;
+-webkit-box-pack: center;
+align-items: center;
+content: counter(ol-step-counter);
+display: -ms-inline-flexbox;
+display: -webkit-inline-box;
+display: inline-flex;
+flex-shrink: 0;
+font-size: .75em;
+height: 20px;
+justify-content: center;
+margin: 6px 0 0;
+width: 20px
+}
+
+#body-inner ol:not([class])>li {
+font-size: 1.125rem;
+line-height: 1.778rem;
+margin-bottom: 8px
+}
+
+/*
+#body-inner ol:not([class])>li,ul:not([class])>li {
+font-size: 1.125rem;
+line-height: 1.778rem;
+margin-bottom: 8px
+}
+
+ul:not([class]) {
+padding-left: 24px
+}
+
+ul:not([class])>li::before {
+content: "";
+height: 8px;
+margin: 12px 0 0;
+width: 8px
+}
+*/
+.tags {
+
+display: inline-block;
+line-height: 2em;
+font-size: 0.8em;
+position: relative;
+margin: 0 16px 8px 0;
+padding: 0 10px 0 12px;
+background: var(--theme-color);
+
+}
+.tags a{
+text-decoration: none;
+color:white;
+}
+.tags a:before {
+content: "";
+position: absolute;
+top: 0;
+left: -1em;
+width: 0;
+height: 0;
+border-color: transparent var(--theme-color) transparent transparent;
+border-style: solid;
+border-width: 1em 1em 1em 0;
+
+}
+/* 為甚麼放在這裡就都正常,放在其他地方就不行? 找不到原因*/
+.chroma .lnt{
+    display:block;
+}
+
+
+/* Sidebar formating --------------------------------------------*/
+
+div.sidebar, div.base {
+    /* border: 3px solid #4e9a06;*/
+    border-radius: 5px;
+    padding: 1em;
+    margin: 1em 1em 1em 3.5em;
+    box-shadow: 6px 7px 7px black;
+    background-color: #c2e1a7;
+  }
+  
+  
+  div.quiz  {
+    /* border: 3px solid #4e9a06;*/
+    border-radius: 5px;
+    padding: 1em;
+    margin: 1em 1em 1em 3.5em;
+    box-shadow: 6px 7px 7px black;
+    background-color: #efc3b9;
+  }
+  
+
+/*把UL當成tree*/  
+.file-tree ul {
+  font-family: courier;
+  margin: 0;
+  padding-left: 3rem;
+  list-style: none;
+  line-height: 1.25;
+  position: relative;
+  overflow: hidden;
+}
+
+.file-tree li:not(:last-child) > ul::before {
+  content: '\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020\2502\0020';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1em;
+}
+
+.file-tree > ul {
+  margin: 0;
+  padding: 0;
+}
+
+.file-tree li {
+  background: #fff;
+  position: relative;
+}
+
+.file-tree li::before {
+  content: '\251C\2500\2500\0020';
+}
+
+.file-tree li:last-child::before {
+  content: '\2514\2500\2500\0020';
+}
+figure a{
+  background-color: #8ce9e400 !important;
+  border: none!important;
+}
+
+
+
+	
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+  border-top-color: #dc3545;
+}
+
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+  border-bottom-color: #dc3545;
+}
+
+.tooltip.bs-tooltip-start .tooltip-arrow::before {
+  border-left-color: #dc3545;
+}
+
+.tooltip.bs-tooltip-end .tooltip-arrow::before {
+  border-right-color: #dc3545;
+}	
+.tooltip.show {
+opacity: 1;
+}
+.tooltip-inner {
+background-color: #dc3545;
+box-shadow: 0px 0px 4px black;
+text-align:left;
+opacity: 1 !important;
+}
+
+.tooltip.bs-tooltip-right .arrow:before {
+border-right-color: #dc3545 !important;
+}
+
+.tooltip.bs-tooltip-left .arrow:before {
+border-left-color: #dc3545 !important;
+}
+
+.tooltip.bs-tooltip-bottom .arrow:before {
+border-bottom-color: #dc3545 !important;
+}
+
+.tooltip.bs-tooltip-top .arrow:before {
+border-top-color: #dc3545 !important;
+}
+
+
+a[data-role-posix]{
+  display:block;
+  margin:0.5rem 1.5rem;
+  /*text-align:center;*/
+  text-decoration: none;;
+}
+ 
+
+a[data-role-posix]:before{
+  margin-left:-16px;
+}
+ 
+
+a[href$=".docx"]:before,a[href$=".doc"]:before,a[href$=".rtf"]:before {
+content:url(../images/doc.png);
+}
+
+a[href$=".ppt"],a[href$=".pptx"]:before {
+content:url(../images/ppt.png);
+}
+
+a[href$=".xlsx"]:before, a[href$=".xls"]:before {
+content:url(../images/xls.png);
+}
+
+a[href$=".pdf"]:before {
+content:url(../images/pdf.gif);
+}
+
+.tooltip-inner{
+  max-width:400px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapsing {
+      transition-property: height, visibility;
+      transition-duration: .35s;
+  }
+}

@@ -1,0 +1,25 @@
+<div id="page-guide" class="bg-dark">  
+  {{ if or .NextInSection .PrevInSection }}
+    
+          {{ if .NextInSection }}
+          <a href="{{ .NextInSection.RelPermalink }}" 
+                   class="btn btn-primary" 
+                   data-bs-toggle="tooltip" 
+                   data-bs-placement="left" title={{.NextInSection.Title}}>前</a>
+          {{ end }}         
+          {{ if .PrevInSection }}
+            <a href="{{ .PrevInSection.RelPermalink }}" 
+               class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="left" 
+               title={{.PrevInSection.Title}}>後</a>            
+          {{ end }}
+          
+{{ end }}
+{{ partial "localedit.html" . }}  
+<script src="{{"js/packhtml.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>    
+<button class="btn btn-primary " onclick="packthis(this)"
+data-bs-toggle="tooltip" data-bs-placement="left" title="打包成單一檔案">包</button>
+<button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="div#qnote-list">
+  <span data-bs-toggle="tooltip" data-bs-placement="left" title="快速註記">速</span></button>
+ 
+</div>
+  

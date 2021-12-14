@@ -1,0 +1,3 @@
+<video playsinline autoplay loop muted  class={{ with (.Get "class") }} "{{.}}" {{else}} "w-50" {{end}} preload="auto" controls>
+  <source src="{{ .Get "src" }}" type="video/{{ with (.Get "type") }} {{.}} {{else -}} mp4 {{- end}}">
+</video>

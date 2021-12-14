@@ -1,0 +1,14 @@
+{{- $pattern := default "\\.(gif|jpg|jpeg|tiff|png|bmp)" (.Get "pattern") -}}
+{{- $folder := default "report" (.Get "section") -}}
+{{- with .Site.GetPage "section" $folder -}} <!-- 只拿content/report/子目錄下的資源黨-->
+  {{- $resources := .Resources.ByType "image" -}}
+  {{- range $resources -}}
+      {{- with . -}}
+        {{- $isfilter := lower .Name | findRE $pattern -}}
+        {{- if $isfilter  -}}
+		  {{- $ext := path.Ext .Name -}}
+		  <img id={{.Name}} style="width:30%;display:inline" src="data:image/{{$ext}};base64,{{.Content | base64Encode }}" > 
+        {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

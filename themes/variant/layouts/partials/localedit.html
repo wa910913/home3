@@ -1,0 +1,17 @@
+{{- if and (or .IsPage .IsSection) (ne hugo.Environment "production") -}}
+{{- $ext := cond (isset .Page.Params "editext")	.Page.Params.EditExt "" -}}
+{{- $ext := cond (and ( eq $ext "") (isset .Site.Params "editext")) .Site.Params.EditExt $ext -}}
+{{- $ext := default "md" $ext -}}
+{{- $editurl := getenv "EDITURL" -}}
+{{ $editurl := cond (ne $editurl "")  (replace (printf "vscode://file/%s/content/" $editurl) "\\" "/") "" }}
+
+{{- $editurl := default .Site.Params.editURL  $editurl -}}
+    {{- if and .Page.File (ne $editurl "") -}}
+    <a class="text-decoration-none btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="left" title="{{ path.Dir .Page.File }}/{{ .File.BaseFileName }}.{{$ext}}"
+      href="{{ $editurl | safeURL}}{{ replace .File.Dir "\\" "/" }}{{ .File.BaseFileName }}.{{ $ext }}" target="blank">
+        編
+    </a>    
+
+    {{- end -}}
+{{- end -}}
+
